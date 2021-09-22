@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react/cjs/react.development';
 import AppRouter from 'components/Router';
 import { authService } from 'fbase';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(authService.currentUser);
+  const [init, setInit] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    authService.onAuthStateChanged((user) => {
+      if (user) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+      setInit(true);
+    });
+  }, []);
   return (
     <>
-      <AppRouter isLoggendIn={isLoggedIn} />
+      {init ? <AppRouter isLoggendIn={isLoggedIn} /> : "Initializing..."}
       <footer>&copy; {new Date().getFullYear()} Nwitter</footer>
     </>
   );
