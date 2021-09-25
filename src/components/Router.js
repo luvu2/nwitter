@@ -1,11 +1,11 @@
 import React from "react";
-import { Redirect, HashRouter as Router, Route, Switch } from "react-router-dom";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import Auth from "../routes/Auth";
 import Home from "../routes/Home";
 import Profile from "../routes/Profile";
 import Navigation from "components/Navigation";
 
-const AppRouter = ({isLoggendIn}) => {
+const AppRouter = ({ isLoggendIn, userObj }) => {
     return (
         <Router>
             {isLoggendIn && <Navigation />}
@@ -13,7 +13,7 @@ const AppRouter = ({isLoggendIn}) => {
                 {isLoggendIn ? (
                     <>
                         <Route exact path="/">
-                            <Home />
+                            <Home userObj={userObj}/>
                         </Route>
                         <Route exact path="/profile">
                             <Profile />
